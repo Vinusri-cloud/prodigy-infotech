@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Interactive Navigation Menu</title>
+
+    <style>
+      /* ------------------------------
+            BASIC PAGE STYLING
+        -------------------------------*/
+      body {
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        background: #f7f7f7;
+      }
+
+      header {
+        padding: 120px 20px;
+        text-align: center;
+        background: linear-gradient(135deg, #0055ff, #00c8ff);
+        color: white;
+      }
+
+      h1 {
+        font-size: 48px;
+        margin: 10px 0;
+      }
+      h2 {
+        font-size: 28px;
+        margin: 5px 0;
+      }
+
+      /* ------------------------------
+            FIXED NAVIGATION MENU
+        -------------------------------*/
+      nav {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        background: rgba(0, 0, 0, 0.2);
+        padding: 15px 0;
+        transition: 0.3s;
+        z-index: 1000;
+        backdrop-filter: blur(5px);
+      }
+
+      nav.scrolled {
+        background: #0055ff; /* Color when scrolled */
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+      }
+
+      nav ul {
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        list-style: none;
+        gap: 40px;
+      }
+
+      nav ul li a {
+        color: white;
+        text-decoration: none;
+        font-size: 18px;
+        padding: 8px 12px;
+        transition: 0.3s;
+      }
+
+      nav ul li a:hover {
+        background: white;
+        color: #0055ff;
+        border-radius: 6px;
+      }
+
+      /* ------------------------------
+            CONTENT SECTION
+        -------------------------------*/
+      section {
+        padding: 80px 20px;
+        font-size: 20px;
+        line-height: 1.6;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- ---------------------------------
+         FIXED NAVIGATION MENU
+    ---------------------------------- -->
+    <nav id="navbar">
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Services</a></li>
+        <li><a href="#">Projects</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </nav>
+
+    <!-- ---------------------------------
+         HEADER SECTION
+    ---------------------------------- -->
+    <header>
+      <h1>ProDigy Infotech</h1>
+      <h2>Task - 01</h2>
+      <h3>Responsive Landing Page</h3>
+    </header>
+
+    <!-- ---------------------------------
+         MAIN CONTENT
+    ---------------------------------- -->
+    <section>
+      <p>
+        This is sample content for the landing page. Scroll down to see the
+        navigation bar change color. You can add your own sections here such as
+        services, about, projects, and more.
+      </p>
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ac
+        neque vel libero dictum pharetra. Nullam in nunc id nunc bibendum
+        finibus.
+      </p>
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quibusdam,
+        cumque.
+      </p>
+      <p style="padding-bottom: 400px">Keep scrolling...</p>
+    </section>
+
+    <!-- ---------------------------------
+         JAVASCRIPT INTERACTIVITY
+    ---------------------------------- -->
+    <script>
+      const navbar = document.getElementById("navbar");
+
+      window.addEventListener("scroll", () => {
+        if (window.scrollY > 50) {
+          navbar.classList.add("scrolled");
+        } else {
+          navbar.classList.remove("scrolled");
+        }
+      });
+    </script>
+  </body>
+</html>
