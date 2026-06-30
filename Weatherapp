@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weather App</title>
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background: linear-gradient(135deg, #007bff, #00c6ff);
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
+
+      .container {
+        background: rgba(255, 255, 255, 0.15);
+        padding: 30px;
+        width: 350px;
+        border-radius: 15px;
+        text-align: center;
+        backdrop-filter: blur(10px);
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+      }
+
+      input,
+      select {
+        width: 90%;
+        padding: 10px;
+        border-radius: 8px;
+        border: none;
+        margin-bottom: 10px;
+        outline: none;
+        font-size: 16px;
+      }
+
+      button {
+        width: 95%;
+        padding: 10px;
+        background: #ffe600;
+        color: #333;
+        border: none;
+        margin-bottom: 10px;
+        font-size: 16px;
+        font-weight: 600;
+        border-radius: 8px;
+        cursor: pointer;
+      }
+
+      .weather-box {
+        margin-top: 20px;
+        display: none;
+      }
+
+      img {
+        width: 80px;
+        margin: 10px 0;
+      }
+
+      .info p {
+        margin: 5px 0;
+        font-size: 18px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <h2>Weather App</h2>
+
+      <select id="cityList">
+        <option value="">-- Select a City --</option>
+        <option value="New York">New York, USA</option>
+        <option value="London">London, UK</option>
+        <option value="Tokyo">Tokyo, Japan</option>
+        <option value="Paris">Paris, France</option>
+        <option value="Sydney">Sydney, Australia</option>
+        <option value="Chennai">Chennai, India</option>
+        <option value="Mumbai">Mumbai, India</option>
+        <option value="Delhi">Delhi, India</option>
+        <option value="Singapore">Singapore</option>
+        <option value="Dubai">Dubai, UAE</option>
+
+        <!-- Add more cities -->
+        <option value="Toronto">Toronto, Canada</option>
+        <option value="Berlin">Berlin, Germany</option>
+        <option value="Rome">Rome, Italy</option>
+        <option value="Bangkok">Bangkok, Thailand</option>
+        <option value="Cape Town">Cape Town, South Africa</option>
+      </select>
+
+      <button onclick="getWeatherFromList()">Get Weather</button>
+
+      <button onclick="getLocationWeather()">Use My Location</button>
+
+      <div id="weatherResult" class="weather-box">
+        <h3 id="cityName"></h3>
+        <img id="weatherIcon" src="" alt="" />
+        <h2 id="temp"></h2>
+
+        <div class="info">
+          <p id="condition"></p>
+          <p id="humidity"></p>
+          <p id="wind"></p>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const apiKey = "YOUR_API_KEY";
+
+      // Get weather from dropdown list
+      function getWeatherFromList() {
+        let city = document.getElementById("cityList").value;
+
+        if (city === "") {
+          alert("Please select a city");
+          return;
+        }
+
+        fetchWeather(
+          `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`
+        );
+      }
+
+      // Fetch weather using device location
+      function getLocationWeather() {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition((position) => {
+            let lat = position.coords.latitude;
+            let lon = position.coords.longitude;
+
+            fetchWeather(
+              `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`
+            );
+          });
+        } else {
+          alert("Geolocation is not supported by your browser.");
+        }
+      }
+
+      // Fetch and display weather data
+      function fetchWeather(url) {
+        fetch(url)
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.cod === "404") {
+              alert("City not found.");
+              return;
+            }
+
+            document.getElementById("weatherResult").style.display = "block";
+            document.getElementById(
+              "cityName"
+            ).innerText = `${data.name}, ${data.sys.country}`;
+            document.getElementById("temp").innerText = data.main.temp + "°C";
+
+            document.getElementById("condition").innerText =
+              "Condition: " + data.weather[0].description;
+            document.getElementById("humidity").innerText =
+              "Humidity: " + data.main.humidity + "%";
+            document.getElementById("wind").innerText =
+              "Wind Speed: " + data.wind.speed + " m/s";
+
+            document.getElementById(
+              "weatherIcon"
+            ).src = `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
+          })
+          .catch(() => alert("Error fetching weather data."));
+      }
+    </script>
+  </body>
+</html>
